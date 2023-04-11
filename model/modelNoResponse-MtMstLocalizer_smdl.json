@@ -1,0 +1,50 @@
+{
+  "Name": "mtMstLocalizer",
+  "Description": "contrasts for the MtMst localizer dataset",
+  "Input": {
+    "task": "mtMstLocalizer"
+  },
+  "Steps": [
+    {
+      "Level": "run",
+      "Model": {
+        "X": [
+          "trial_type.motion_left",
+          "trial_type.motion_right",
+          "trans_x", "trans_y", "trans_z", "rot_x", "rot_y", "rot_z"
+        ]
+      },
+      "AutoContrasts": [
+        "trial_type.motion_left",
+        "trial_type.motion_right"]
+    },
+    {
+      "Level": "subject",
+      "AutoContrasts": [
+        "trial_type.motion_left",
+        "trial_type.motion_right"],
+      "Contrasts": [
+        {
+          "Name": "motion_right_gt_motion_left",
+          "ConditionList": [
+            "trial_type.motion_right", "trial_type.motion_left"
+          ],
+          "weights": [1, -1],
+          "type": "t"
+        },
+        {
+          "Name": "motion_left_gt_motion_right",
+          "ConditionList": [
+            "trial_type.motion_right", "trial_type.motion_left"
+          ],
+          "weights": [-1, 1],
+          "type": "t"
+        }
+      ]
+    },
+    {
+      "Level": "dataset",
+      "AutoContrasts": ["trial_type.motion_right", "trial_type.motion_left", "motion_right_gt_motion_left", "motion_left_gt_motion_right"]
+    }
+  ]
+}
